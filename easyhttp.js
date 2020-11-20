@@ -6,9 +6,11 @@ function easyHTTP() {
 easyHTTP.prototype.get = function(url, callback) {
   this.http.open('GET', url, true);
 
-  this.http.onload = function() {
+  this.http.onload = () => {
     if(this.http.status === 200) {
-      callback(this.http.responseText);
+      callback(null, this.http.responseText);
+    } else {
+      callback('Error: ' + this.http.status);
     }
   }
   this.http.send(); 
