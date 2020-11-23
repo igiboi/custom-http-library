@@ -22,7 +22,11 @@ easyHTTP.prototype.post = function(url, data, callback) {
   this.http.setRequestHeader('Content-type', 'application/json');
 
   this.http.onload = () => {
-   callback(null, this.http.responseText);
+    if(this.http.status === 200) {
+      callback(null, this.http.responseText);
+    } else {
+      callback('Error: ' + this.http.status);
+    }
 }
   this.http.send(JSON.stringify(data));
 }
@@ -34,10 +38,26 @@ easyHTTP.prototype.put = function(url, data, callback) {
   this.http.setRequestHeader('Content-type', 'application/json');
 
   this.http.onload = () => {
-   callback(null, this.http.responseText);
+    if(this.http.status === 200) {
+      callback(null, this.http.responseText);
+    } else {
+      callback('Error: ' + this.http.status);
+    }
 }
   this.http.send(JSON.stringify(data));
 }
 
 
 // HTTP DELETE Request
+easyHTTP.prototype.delete = function(url, callback) {
+  this.http.open('DELETE', url, true);
+
+  this.http.onload = () => {
+    if(this.http.status === 200) {
+      callback(null, 'post deleted');
+    } else {
+      callback('Error: ' + this.http.status);
+    }
+}
+  this.http.send(JSON.stringify(data));
+}
